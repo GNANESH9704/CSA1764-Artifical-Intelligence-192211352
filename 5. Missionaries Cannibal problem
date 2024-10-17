@@ -1,0 +1,52 @@
+def display_status(lM, lC, rM, rC, direction):
+    print("\nLeft: M " * lM + "C " * lC + "|  -->  |  Right: M " * rM + "C " * rC)
+
+def is_lost(lM, lC, rM, rC):
+    return (lC > lM > 0) or (rC > rM > 0)
+
+def is_won(rM, rC):
+    return (rM + rC) == 6
+
+def get_input(max_m, max_c):
+    while True:
+        uM = int(input("Enter number of Missionaries to travel (0-2): "))
+        uC = int(input("Enter number of Cannibals to travel (0-2): "))
+        if 0 <= uM <= 2 and 0 <= uC <= 2 and (uM + uC) > 0 and (uM <= max_m) and (uC <= max_c):
+            return uM, uC
+        print("Invalid input. Try again.")
+
+lM, lC, rM, rC = 3, 3, 0, 0
+moves = 0
+
+print("Game Start: Move all to the right side of the river.")
+print("Rules: 1. The boat can carry at most two people.")
+print("2. If cannibals outnumber missionaries, they will eat them.")
+print("3. The boat cannot cross empty.\n")
+
+while True:
+    uM, uC = get_input(lM, lC)
+    lM -= uM
+    lC -= uC
+    rM += uM
+    rC += uC
+    moves += 1
+    display_status(lM, lC, rM, rC, "to_right")
+
+    if is_lost(lM, lC, rM, rC):
+        print("Cannibals eat missionaries: You lost the game!")
+        break
+
+    if is_won(rM, rC):
+        print(f"You won the game! Total moves: {moves}")
+        break
+
+    uM, uC = get_input(rM, rC)
+    lM += uM
+    lC += uC
+    rM -= uM
+    rC -= uC
+    moves += 1
+    display_status(lM, lC, rM, rC, "to_left")
+    if is_lost(lM, lC, rM, rC):
+        print("Cannibals eat missionaries: You lost the game!")
+        break
