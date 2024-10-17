@@ -1,0 +1,36 @@
+def print_board(x_state, o_state):
+    board = ['X' if x else 'O' if o else str(i) for i, (x, o) in enumerate(zip(x_state, o_state))]
+    print(f" {board[0]} | {board[1]} | {board[2]} ")
+    print("---|---|---")
+    print(f" {board[3]} | {board[4]} | {board[5]} ")
+    print("---|---|---")
+    print(f" {board[6]} | {board[7]} | {board[8]} ")
+def check_win(x_state, o_state):
+    wins = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    for win in wins:
+        if sum(x_state[i] for i in win) == 3:
+            print("X wins!")
+            return True
+        if sum(o_state[i] for i in win) == 3:
+            print("O wins!")
+            return True
+    return False
+def main():
+    x_state, o_state = [0] * 9, [0] * 9
+    print("Welcome to Tic-Tac-Toe")
+    for turn in range(9):
+        print_board(x_state, o_state)
+        player = 'X' if turn % 2 == 0 else 'O'
+        value = int(input(f"{player}'s turn. Choose a position (0-8): "))
+        if player == 'X':
+            x_state[value] = 1
+        else:
+            o_state[value] = 1
+        if check_win(x_state, o_state):
+            print_board(x_state, o_state)
+            print("Game Over")
+            return
+    print("It's a draw!")
+    print_board(x_state, o_state)
+if __name__ == "__main__":
+    main()
