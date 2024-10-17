@@ -1,2 +1,3 @@
-sum(N, Sum) :-
-    Sum is (N + 1) * N / 2.
+def sum_integers(n):
+    return n * (n + 1) // 2
+print(sum_integers(10))
