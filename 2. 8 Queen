@@ -1,0 +1,26 @@
+def attack(board, i, j):
+    for k in range(len(board)):
+        if board[i][k] == 1 or board[k][j] == 1:
+            return True
+    for k in range(len(board)):
+        for l in range(len(board)):
+            if (k + l == i + j) or (k - l == i - j):
+                if board[k][l] == 1:
+                    return True
+    return False
+def N_queens(board, n):
+    if n == 0:
+        return True
+    for i in range(len(board)):
+        for j in range(len(board)):
+            if not attack(board, i, j) and board[i][j] != 1:
+                board[i][j] = 1  # Place a queen
+                if N_queens(board, n - 1):
+                    return True
+                board[i][j] = 0  # Backtrack
+    return False
+N = int(input("Enter the number of queens: "))
+board = [[0] * N for _ in range(N)]
+N_queens(board, N)
+for row in board:
+    print(row)
