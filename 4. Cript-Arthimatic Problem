@@ -1,0 +1,20 @@
+from itertools import permutations
+def is_valid(assignment):
+    S, E, N, D, M, O, R, Y = assignment
+    send = 1000*S + 100*E + 10*N + D
+    more = 1000*M + 100*O + 10*R + E
+    money = 10000*M + 1000*O + 100*N + 10*E + Y
+    return send + more == money
+def solve_cryptarithmetic():
+    letters = 'SENDMORY'
+    for perm in permutations(range(10), len(letters)):
+        if is_valid(perm):
+            return {letters[i]: perm[i] for i in range(len(letters))}
+    return None
+solution = solve_cryptarithmetic()
+if solution:
+    print("Solution found:")
+    for letter, digit in solution.items():
+        print(f"{letter} = {digit}")
+else:
+    print("No solution found.")
