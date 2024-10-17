@@ -1,0 +1,24 @@
+import itertools
+def calculate_distance(point1, point2):
+    return ((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2) ** 0.5
+def total_distance(points, order):
+    return sum(calculate_distance(points[order[i]], points[order[(i + 1) % len(order)]]) for i in range(len(order)))
+def tsp_bruteforce(points):
+    min_distance = float('inf')
+    optimal_order = None
+    for order in itertools.permutations(range(len(points))):
+        distance = total_distance(points, order)
+        if distance < min_distance:
+            min_distance = distance
+            optimal_order = order
+    return min_distance, optimal_order
+points = {
+    'A': (0, 0),
+    'B': (1, 2),
+    'C': (4, 1),
+    'D': (2, 4)
+}
+min_distance, optimal_order = tsp_bruteforce(list(points.values()))
+optimal_path = [list(points.keys())[i] for i in optimal_order]
+print("Optimal Path:", optimal_path)
+print("Min Distance:", min_distance)
